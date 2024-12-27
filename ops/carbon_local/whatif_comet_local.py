@@ -31,15 +31,13 @@ class SeasonalFieldConverter:
         """
         s = shape(geojson)
 
-        coordinates = geojson['coordinates'][0]  # Assuming a single ring polygon
-
-        # Format the coordinates into the desired format
-        location = ", ".join([f"{lon} {lat}" for lon, lat in coordinates])
+        location = (s.centroid.x, s.centroid.y)  # type: ignore
 
         geod = Geod("+a=6378137 +f=0.0033528106647475126")
         area_in_acres = geod.geometry_area_perimeter(s)[0] * 0.000247105
 
         return (area_in_acres, location)
+        
 
     def format_datetime(self, date: str) -> str:
         date_obj = datetime.strptime(date, "%Y-%m-%dT%H:%M:%SZ")
@@ -224,13 +222,8 @@ class SeasonalFieldConverter:
         geom.attrib["APEXTOLINK"] = ""
         geom.attrib["APEXFROMLINK"] = ""
 
-        # geom.text = f"POLYGON (({farm_location[1][0]} {farm_location[1][1]}))"
-
-        # Extract the coordinates from the geojson and format as a POLYGON string
-        #coordinates = baseline_field.geometry['coordinates'][0]
-
-        # Create the WKT POLYGON format string
-        geom.text = f"POLYGON (({farm_location[1]}))"
+        geom.attrib["AREA"] = str(farm_location[0])
+        geom.text = f"POINT({farm_location[1][0]} {farm_location[1][1]})"
 
         # geom.text = f"POLYGON (())"
 
@@ -248,13 +241,13 @@ class SeasonalFieldConverter:
 
 
 class CallbackBuilder:
-    def __init__(self, comet_url: str, comet_support_email: str, ngrok_token: str, api_key: str):
+    def __init__(self, comet_url: str, comet_support_email: str, ngrok_token: str, comet_api_key: str):
         self.cometRequest = CometServerParameters(
             url=comet_url,
             webhook=WEBHOOK_URL,
             supportEmail=comet_support_email,
             ngrokToken=ngrok_token,
-            apiKey=api_key
+            cometApiKey=comet_api_key
         )
 
         self.comet_requester = CometRequester(self.cometRequest)

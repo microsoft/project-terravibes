@@ -8,7 +8,7 @@ parameters:
   comet_url: "https://comet-farm.com/apimain/uploadapiqueue"
   comet_support_email: ""
   ngrok_token: ""
-  api_key: ""
+  comet_api_key: ""
 
 entrypoint:
   file: whatif_comet_local.py
