@@ -9,6 +9,7 @@ sinks:
 parameters:
   comet_support_email:
   ngrok_token:
+  comet_api_key:
 tasks:
   comet_task:
     op: whatif_comet_local_op
@@ -16,6 +17,7 @@ tasks:
     parameters:
       comet_support_email: "@from(comet_support_email)"
       ngrok_token: "@from(ngrok_token)"
+      comet_api_key: "@from(comet_api_key)"
 description:
   short_description:
     Computes the offset amount of carbon that would be sequestered in a seasonal field using the
@@ -52,3 +54,6 @@ description:
       NGROK session token. FarmVibes generate web_hook url and shared url with comet along the request to receive the
       response from comet. It's publicly accessible url and it's unique for each session. The url gets destroyed
       once the session ends. To start the ngrok session a token, it is generated from this url https://dashboard.ngrok.com/
+    comet_api_key:
+      COMET-Farm API key. The required parameter for the running the the scenarios.
+    
