@@ -216,7 +216,6 @@ class SeasonalFieldConverter:
         geom = ET.SubElement(cropland, "GEOM")
         geom.attrib["PARCELNAME"] = "F1"
         geom.attrib["SRID"] = "4326"
-        geom.attrib["AREA"] = str(farm_location[0])
 
         geom.attrib["ORIGINALID"] = "114090"
         geom.attrib["APEXTOLINK"] = ""
@@ -224,8 +223,6 @@ class SeasonalFieldConverter:
 
         geom.attrib["AREA"] = str(farm_location[0])
         geom.text = f"POINT({farm_location[1][0]} {farm_location[1][1]})"
-
-        # geom.text = f"POLYGON (())"
 
         self._add_historical(baseline_field.properties, cropland)
 
